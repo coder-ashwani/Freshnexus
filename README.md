@@ -1,85 +1,67 @@
 # FreshNexus — Grocery Intelligence Platform
 
-A **Next.js 15 App Router** web application providing grocery product discovery, deep product intelligence, and live market insights.
+A comprehensive, production-ready **Next.js 15 App Router** web application that provides seamless grocery product discovery, a fully integrated persistent shopping cart, international cross-currency checkout, and live market intelligence.
 
-## Live Demo
+## 🚀 Live Demo
 
-> Deploy to Vercel: Click **"New Project"** → Import this repo → Deploy (zero config needed).
-
----
-
-## Pages
-
-| Page | Route | Description |
-|---|---|---|
-| Discovery Hub | `/` | Searchable catalog via Open Food Facts, URL-based category filtering |
-| Product Intelligence | `/product/[id]` | Deep-dive product detail with dynamic SEO + nutrition data |
-| Market Insights | `/insights` | Live currency rates (Frankfurter) + grocery market context |
+> **Deploy to Vercel**: Click "New Project" → Import this repo → Deploy (zero config needed).
 
 ---
 
-## Architectural Choices
+## 🌟 Core Features
 
-### SEO Strategy
+1. **Global Persistent Shopping Cart**: Utilizes React Context (`CartContext`) and `localStorage` to ensure users can add, update, and completely delete items while maintaining their cart across hard browser reloads.
+2. **Live International Currency Converter**: The cart autonomously fetches real-time European Central Bank rates from the *Frankfurter API*, allowing instantaneous translation of checkout subtotals and individual product prices between USD, EUR, GBP, JPY, and INR.
+3. **Cmd+K Spotlight Search**: Implemented a global, frosted-glass Modal listener that intercepts `Cmd/Ctrl + K` keystrokes anywhere on the site, fetching instant thumbnail-supported search results from a custom internal `/api/search` route.
+4. **Secure Checkout Pipeline**: A gorgeous, fully responsive 2-column Checkout form that dynamically natively calculates subtotals and a fixed $5.00 delivery fee while executing rigorous field validations.
+5. **Pristine Light Theme UI**: Systematically styled with CSS Variables (`var(--bg-1)`, `var(--text-primary)`) leveraging pure Vanilla CSS glassmorphism, responsive grid containers, and smooth UI Micro-interactions (e.g. visually satisfying *"✓ Added"* grid button states).
+6. **Live High-Frequency Commodities**: Uses aggressive revalidation on the `/insights` page to display dynamically simulated sub-second market data, preventing stale rendering.
+7. **Resilient Local Mock Fallbacks**: Automatically falls back to high-fidelity local deterministic JSON representations (`mock-grocery-data.json`) flawlessly if the external OpenFoodFacts global catalog rate-limits or times out.
 
-**Server Components as the default.** All three pages are React Server Components. This means the HTML delivered to the browser (and to crawlers) already contains the product names, descriptions, and nutrition data — no JavaScript execution needed for indexing.
+---
 
-**Dynamic `generateMetadata`** is used on the Product Detail page to produce per-product `<title>`, `<meta description>`, and OpenGraph tags based on the actual product name fetched from the API. This ensures every product page has unique, meaningful metadata rather than a generic placeholder.
+## 🏗️ Architectural Topology
 
-**Semantic HTML** is used throughout: `<header>`, `<main>`, `<footer>`, `<article>`, `<section>`, `<nav>`, `<dl>` for definition lists, and `<table>` for nutrition data. `aria-*` attributes are applied to interactive elements for accessibility (which also benefits crawlers).
-
-**URL-based state** for search, category, and pagination — all filter state lives in the URL (`?q=&category=&page=`). This means every filtered view is a standalone shareable, indexable URL.
+### Server Components vs Client Interactivity
+- **Server Components (Default):** SEO-heavy pages like the Root Discovery Hub (`/`) and Product Intelligence detail views (`/product/[id]`) are 100% Server Side Rendered. This means the HTML payload natively embeds description tags, meta images, and data logic safely bypassing JavaScript requirements.
+- **Client Components:** Dynamic features like UI interactions (`<AddToCartDetail />`, `<CommandMenu />`, `<Navbar />`) utilize specific `"use client"` boundaries guaranteeing blazing-fast interactive execution strictly where State logic is required.
 
 ### Data Fetching & Caching
-
 | Strategy | Used for | Rationale |
 |---|---|---|
 | `fetch` + `next: { revalidate: 300 }` | Home page search | Product catalog changes infrequently; 5-min ISR balances freshness vs. API load |
 | `fetch` + `next: { revalidate: 3600 }` | Product detail + currency rates | Individual product data is stable; currency updates daily |
-| No `"use client"` on data pages | All 3 pages | Ensures server-rendered HTML for SEO; client components only for interactive UI |
+| `API Route Interception` | Cmd+K Search | Optimized lightweight JSON payload streaming with debounced fetch events |
 
-This pattern (ISR — Incremental Static Regeneration) means pages are statically served from the CDN edge and only re-fetched from the origin when the revalidation window expires, providing both **performance** and **data freshness**.
-
-### Image Handling
-
-`next/image` is used on every product photo with:
-- `fill` layout + `object-fit: contain` for responsive aspect-ratio boxes
-- `sizes` attribute on list cards to serve appropriately-sized WebP images
-- `priority` on the above-the-fold product detail image
-- `unoptimized` flag used since Open Food Facts images are already optimized JPEGs served from their CDN
-
-### APIs
-
-| API | Endpoint | No API Key? |
+## 📦 APIs Utilized
+| API | Endpoint | Usage Structure |
 |---|---|---|
-| [Open Food Facts](https://world.openfoodfacts.org) | `/api/v2/search`, `/api/v2/product/{code}` | ✅ Fully public |
-| [Frankfurter](https://www.frankfurter.app) | `/latest`, `/{start}..{end}` | ✅ Fully public, ECB data |
+| **Open Food Facts** | `/api/v2/search` | Aggregates global grocery discovery data. Fully public. |
+| **Frankfurter** | `/latest?from=USD` | ECB Market index. Connected directly to the Cart checkout parser. |
 
-Both APIs are completely free, require no authentication, and are appropriate for production use with attribution (provided in the footer).
+## 💻 Tech Stack
+- **Next.js 15** — App Router, Server Components, ISR API Routes
+- **React 19** — Contexts, Refs, Complex Application State Management
+- **TypeScript** — Strict type-safety architectures across component trees
+- **Vanilla CSS** — Custom responsive design system, global layout spacing, hover heuristics
 
 ---
 
-## Tech Stack
+## 🛠️ Usage Instructions
 
-- **Next.js 15** — App Router, Server Components, ISR
-- **TypeScript** — Full type safety across API responses
-- **Vanilla CSS** — Custom design system (no Tailwind/CSS-in-JS), dark theme, glassmorphism
-- **`next/image`** — Optimized image delivery
-
-## Getting Started
-
+Install packages:
 ```bash
 npm install
+```
+
+Boot Development Server:
+```bash
 npm run dev
 ```
+Navigate to: **http://localhost:3000** 
 
-Open [http://localhost:3000](http://localhost:3000).
-
-## Build & Deploy
-
+### Building for Production
 ```bash
-npm run build   # type-check + build
-npm start       # production server
+npm run build   # Initiates Next.js compiler optimizations and tree-shakes unused components
+npm start       # Fires up node production server
 ```
-
-For Vercel: just push to GitHub and import the repo — zero additional configuration needed.
