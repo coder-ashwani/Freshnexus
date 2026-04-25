@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getLatestRates, getCurrencyHistory, TRACKED_CURRENCIES } from "@/lib/frankfurter";
 import type { CurrencyRates } from "@/types";
+import LiveCommoditiesTicker from "@/components/LiveCommoditiesTicker";
 
 export const metadata: Metadata = {
   title: "Market Insights — Live Currency & Grocery Trends",
@@ -80,6 +81,9 @@ export default async function MarketInsights() {
             ))}
           </div>
         </section>
+
+        {/* Live Commodities Ticker (1-2s update) */}
+        <LiveCommoditiesTicker />
 
         {/* Currency rates */}
         <section aria-labelledby="rates-heading">
