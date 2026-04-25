@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/types";
 import NutriScoreBadge from "./NutriScoreBadge";
+import { useCart } from "@/lib/CartContext";
 
 interface ProductCardProps {
   product: Product;
@@ -12,6 +16,19 @@ export default function ProductCard({ product }: ProductCardProps) {
   const brand = product.brands?.split(",")[0]?.trim();
   const imgSrc =
     product.image_front_small_url || product.image_url || null;
+
+  const { addToCart } = useCart();
+  const [qty, setQty] = useState(1);
+
+  // Deterministic fake price for realistic cart testing since OpenFoodFacts doesn't track retail prices
+  const rawNum = parseInt((product.code || "123").slice(-4)) || 499;
+  const price = (Math.abs(rawNum) % 15) + (Math.abs(rawNum) % 99) / 100 + 1.99;
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent link clicking just in case
+    addToCart(product, qty, price);
+    setQty(1); // Reset qty after adding
+  };
 
   return (
     <article className="product-card">
@@ -45,8 +62,12 @@ export default function ProductCard({ product }: ProductCardProps) {
             {name}
           </h2>
         </Link>
+        
+        <p style={{ fontWeight: "700", color: "white", fontSize: "1.1rem", margin: "0.25rem 0" }}>
+          ${price.toFixed(2)}
+        </p>
 
-        <div className="product-card__meta">
+        <div className="product-card__meta" style={{ marginBottom: "0.75rem" }}>
           <NutriScoreBadge grade={product.nutriscore_grade} />
           {product.nova_group && (
             <span
@@ -56,6 +77,49 @@ export default function ProductCard({ product }: ProductCardProps) {
               NOVA {product.nova_group}
             </span>
           )}
+        </div>
+
+        {/* Add to Cart Controls */}
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "auto" }}>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid var(--surface-border)",
+            borderRadius: "6px",
+            overflow: "hidden"
+          }}>
+            <button 
+              onClick={() => setQty(Math.max(1, qty - 1))}
+              style={{ background: "transparent", border: "none", color: "white", width: "30px", height: "30px", cursor: "pointer" }}
+            >
+              -
+            </button>
+            <span style={{ fontSize: "0.85rem", width: "20px", textAlign: "center", fontWeight: "600" }}>{qty}</span>
+            <button 
+              onClick={() => setQty(qty + 1)}
+              style={{ background: "transparent", border: "none", color: "white", width: "30px", height: "30px", cursor: "pointer" }}
+            >
+              +
+            </button>
+          </div>
+          
+          <button 
+            onClick={handleAdd}
+            style={{
+              flex: 1,
+              background: "var(--accent-2)",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              fontWeight: "600",
+              cursor: "pointer",
+              fontSize: "0.85rem",
+              padding: "0 0.5rem"
+            }}
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </article>

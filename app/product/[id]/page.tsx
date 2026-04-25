@@ -5,12 +5,12 @@ import { notFound } from "next/navigation";
 import { getProduct } from "@/lib/openfoodfacts";
 import NutriScoreBadge from "@/components/NutriScoreBadge";
 import NutritionTable from "@/components/NutritionTable";
+import AddToCartDetail from "@/components/AddToCartDetail";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-// Dynamic metadata based on product name
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   try {
@@ -64,6 +64,10 @@ export default async function ProductIntelligence({ params }: PageProps) {
   const categoryName =
     product.categories?.split(",")[0]?.trim() ??
     product.categories_tags?.[0]?.replace(/^en:/, "").replace(/-/g, " ");
+
+  // Deterministic fake price for realistic cart testing
+  const rawNum = parseInt((product.code || "123").slice(-4)) || 499;
+  const price = (Math.abs(rawNum) % 15) + (Math.abs(rawNum) % 99) / 100 + 1.99;
 
   return (
     <div className="detail-page">
@@ -142,6 +146,9 @@ export default async function ProductIntelligence({ params }: PageProps) {
                 ))}
               </div>
             )}
+
+            {/* Add to Cart Client Component Component */}
+            <AddToCartDetail product={product} price={price} />
 
             {/* Nutrition */}
             <section className="info-section" aria-labelledby="nutrition-heading">
