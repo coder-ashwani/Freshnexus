@@ -20,7 +20,7 @@ export default function Pagination({ currentPage, pageCount }: PaginationProps) 
   if (pageCount <= 1) return null;
 
   const pages = Array.from({ length: Math.min(pageCount, 7) }, (_, i) => {
-    // Show window around current page
+
     if (pageCount <= 7) return i + 1;
     const start = Math.max(1, currentPage - 3);
     return start + i;

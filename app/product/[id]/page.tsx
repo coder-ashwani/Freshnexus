@@ -65,14 +65,13 @@ export default async function ProductIntelligence({ params }: PageProps) {
     product.categories?.split(",")[0]?.trim() ??
     product.categories_tags?.[0]?.replace(/^en:/, "").replace(/-/g, " ");
 
-  // Deterministic fake price for realistic cart testing
   const rawNum = parseInt((product.code || "123").slice(-4)) || 499;
   const price = (Math.abs(rawNum) % 15) + (Math.abs(rawNum) % 99) / 100 + 1.99;
 
   return (
     <div className="detail-page">
       <div className="container">
-        {/* Back link */}
+        
         <Link href="/" className="detail-back" aria-label="Back to Discovery Hub">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="m15 18-6-6 6-6" />
@@ -81,7 +80,7 @@ export default async function ProductIntelligence({ params }: PageProps) {
         </Link>
 
         <article className="detail-grid" aria-label={`Product details for ${name}`}>
-          {/* Image */}
+          
           <div>
             <div className="detail-img-wrap">
               {imgSrc ? (
@@ -100,13 +99,11 @@ export default async function ProductIntelligence({ params }: PageProps) {
               )}
             </div>
 
-            {/* Nutri Score bar */}
             <div style={{ marginTop: "1.25rem", display: "flex", justifyContent: "center" }}>
               <NutriScoreBadge grade={product.nutriscore_grade} size="lg" />
             </div>
           </div>
 
-          {/* Details */}
           <div className="detail-info">
             <div>
               <div className="detail-eyebrow">
@@ -123,7 +120,6 @@ export default async function ProductIntelligence({ params }: PageProps) {
               )}
             </div>
 
-            {/* Badges */}
             {(product.nutriscore_grade || product.ecoscore_grade || product.nova_group || labelsList.length > 0) && (
               <div className="detail-badges" aria-label="Product scores and labels">
                 {product.nutriscore_grade && (
@@ -147,10 +143,8 @@ export default async function ProductIntelligence({ params }: PageProps) {
               </div>
             )}
 
-            {/* Add to Cart Client Component Component */}
             <AddToCartDetail product={product} price={price} />
 
-            {/* Nutrition */}
             <section className="info-section" aria-labelledby="nutrition-heading">
               <h2 className="info-section__title" id="nutrition-heading">
                 Nutritional Values (per 100g)
@@ -158,7 +152,6 @@ export default async function ProductIntelligence({ params }: PageProps) {
               <NutritionTable nutriments={product.nutriments} />
             </section>
 
-            {/* Ingredients */}
             {product.ingredients_text && (
               <section className="info-section" aria-labelledby="ingredients-heading">
                 <h2 className="info-section__title" id="ingredients-heading">
@@ -168,7 +161,6 @@ export default async function ProductIntelligence({ params }: PageProps) {
               </section>
             )}
 
-            {/* Allergens */}
             {allergensList.length > 0 && (
               <section className="info-section" aria-labelledby="allergens-heading">
                 <h2 className="info-section__title" id="allergens-heading">
@@ -182,7 +174,6 @@ export default async function ProductIntelligence({ params }: PageProps) {
               </section>
             )}
 
-            {/* Origin info */}
             {(product.origins || product.countries || product.manufacturing_places) && (
               <section className="info-section" aria-labelledby="origin-heading">
                 <h2 className="info-section__title" id="origin-heading">
@@ -211,7 +202,6 @@ export default async function ProductIntelligence({ params }: PageProps) {
               </section>
             )}
 
-            {/* Barcode */}
             <p style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
               Barcode: <code style={{ fontFamily: "monospace" }}>{product.code}</code> &mdash;{" "}
               <a

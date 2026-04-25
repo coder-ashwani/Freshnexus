@@ -20,7 +20,6 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const [qty, setQty] = useState(1);
 
-  // Deterministic fake price for realistic cart testing since OpenFoodFacts doesn't track retail prices
   const rawNum = parseInt((product.code || "123").slice(-4)) || 499;
   const price = (Math.abs(rawNum) % 15) + (Math.abs(rawNum) % 99) / 100 + 1.99;
 
@@ -79,7 +78,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
 
-        {/* Add to Cart Controls */}
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "auto" }}>
           <div style={{
             display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between",

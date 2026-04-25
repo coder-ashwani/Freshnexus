@@ -1,4 +1,4 @@
-// ── Open Food Facts Types ──────────────────────────────────────────────────────
+
 
 export interface Nutriments {
   energy_kcal?: number;
@@ -56,8 +56,6 @@ export interface ProductResponse {
   status: number;
   product: Product;
 }
-
-// ── Frankfurter / Currency Types ──────────────────────────────────────────────
 
 export interface CurrencyRates {
   amount: number;

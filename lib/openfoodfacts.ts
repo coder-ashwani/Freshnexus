@@ -7,7 +7,6 @@ const HEADERS = {
   Accept: "application/json",
 };
 
-// Fields we need for the product card list (keeps payload small)
 const LIST_FIELDS = [
   "code",
   "product_name",
@@ -21,7 +20,6 @@ const LIST_FIELDS = [
   "quantity",
 ].join(",");
 
-// All fields for the detail page
 const DETAIL_FIELDS = [
   "code",
   "product_name",
@@ -46,9 +44,6 @@ const DETAIL_FIELDS = [
   "selected_images",
 ].join(",");
 
-// ── Retry helper ──────────────────────────────────────────────────────────────
-// Retries up to `attempts` times with a fixed delay between retries.
-// Only retries on 5xx errors (server-side, transient).
 async function fetchWithRetry(
   url: string,
   options: RequestInit & { next?: { revalidate?: number } },
@@ -57,7 +52,7 @@ async function fetchWithRetry(
   for (let i = 0; i < attempts; i++) {
     try {
       const res = await fetch(url, { ...options, next: (options as { next?: { revalidate?: number } }).next });
-      // Retry on 503 / 429 / any 5xx — don't retry 4xx (client errors)
+
       if ((res.status >= 500 || res.status === 429) && i < attempts - 1) {
         await new Promise((r) => setTimeout(r, 600 * (i + 1)));
         continue;
@@ -71,12 +66,10 @@ async function fetchWithRetry(
   throw new Error("Failed after retries");
 }
 
-// ── Fallback Mock Data ────────────────────────────────────────────────────────
 import MOCK_DATA from "./mock-grocery-data.json";
 
-// ── Search ────────────────────────────────────────────────────────────────────
-// Uses the CGI endpoint for text search (more reliable/stable) and the v2
-// endpoint for category-only browsing.
+// Fetches a list of grocery products
+// Prioritizes the OpenFoodFacts API, but safely falls back to our local mock JSON if the request fails or times out.
 export async function searchProducts({
   query = "",
   category = "",
@@ -130,8 +123,7 @@ export async function searchProducts({
 
     const data = await res.json();
     const count = data.count ?? data.products?.length ?? 0;
-    
-    // If the API returns valid data, return it
+
     if (count > 0 && data.products) {
       return {
         count,
@@ -144,8 +136,7 @@ export async function searchProducts({
     throw new Error("No products found from API");
   } catch (err) {
     console.error(`Open Food Facts API failed or returned empty (${err}), providing fallback data`);
-    
-    // Simulate search and category filtering on our fallback data
+
     let filtered = MOCK_DATA as Product[];
     if (query) {
       const q = query.toLowerCase();
@@ -165,7 +156,7 @@ export async function searchProducts({
   }
 }
 
-// ── Product detail ────────────────────────────────────────────────────────────
+// Get a single product details by its unique barcode ID
 export async function getProduct(code: string): Promise<Product> {
   const params = new URLSearchParams({ fields: DETAIL_FIELDS });
   const url = `${BASE}/api/v2/product/${code}?${params.toString()}`;
@@ -182,13 +173,13 @@ export async function getProduct(code: string): Promise<Product> {
     return data.product;
   } catch (err) {
     console.error(`Product detail fetch failed (${err}), falling back to mock data...`);
-    // Fallback to local data
+
     const mockArr = MOCK_DATA as Product[];
     const mockProduct = mockArr.find(p => p.code === code);
     if (!mockProduct) {
       throw new Error(`Product not found and not available offline: ${code}`);
     }
-    // Give it a pseudo-nutriments object so the nutrition table renders something fun
+
     return {
       ...mockProduct,
       ingredients_text: "Mocked ingredients, vegetable oil, sugar, spices. (This product is being served from local offline backup due to Open Food Facts API outage).",

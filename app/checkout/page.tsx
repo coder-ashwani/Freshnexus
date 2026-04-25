@@ -9,13 +9,16 @@ export default function CheckoutPage() {
   const { items, cartTotal } = useCart();
   const [placed, setPlaced] = useState(false);
   
+  // Hardcoded delivery charge based on the project requirements
   const deliveryFee = 5.00;
+  
+  // Only apply delivery fee if the cart actually has items
   const finalTotal = cartTotal + (items.length > 0 ? deliveryFee : 0);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Proceed to success screen
     setPlaced(true);
-    // In a real application, you would process payment and clear cart here
   };
 
   if (placed) {
@@ -38,8 +41,7 @@ export default function CheckoutPage() {
       <h1 style={{ fontSize: "2rem", marginBottom: "2rem" }}>Secure Checkout</h1>
       
       <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.2fr) minmax(0, 0.8fr)", gap: "2rem", alignItems: "start" }}>
-        
-        {/* Left Side: Forms */}
+
         <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
           <form id="checkout-form" onSubmit={handleSubmit} style={{ background: "var(--surface)", border: "1px solid var(--surface-border)", borderRadius: "12px", padding: "2rem" }}>
             <h2 style={{ fontSize: "1.25rem", marginBottom: "1.5rem", borderBottom: "1px solid var(--surface-border)", paddingBottom: "0.75rem" }}>
@@ -99,7 +101,6 @@ export default function CheckoutPage() {
           </form>
         </div>
 
-        {/* Right Side: Order Summary */}
         <div style={{ background: "var(--surface)", border: "1px solid var(--surface-border)", borderRadius: "12px", padding: "2rem", position: "sticky", top: "2rem" }}>
           <h2 style={{ fontSize: "1.25rem", marginBottom: "1.5rem", borderBottom: "1px solid var(--surface-border)", paddingBottom: "0.75rem" }}>
             Order Summary

@@ -1,3 +1,7 @@
+// CartContext.tsx
+// This file manages the global shopping cart state using React Context.
+// It persists cart items to localStorage so they survive page reloads.
+
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";

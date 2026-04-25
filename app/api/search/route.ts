@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    // We limit to page_size=5 for the quick search popup
+
     const results = await searchProducts({ query, pageSize: 5 });
     return NextResponse.json(results);
   } catch (error) {

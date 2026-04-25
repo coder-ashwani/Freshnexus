@@ -49,7 +49,7 @@ export default async function MarketInsights() {
 
   return (
     <div className="insights-page">
-      {/* Hero */}
+      
       <section className="insights-hero" aria-labelledby="insights-title">
         <div className="container">
           <p className="hero__eyebrow" style={{ display: "inline-flex", marginBottom: "1.5rem" }}>
@@ -69,7 +69,7 @@ export default async function MarketInsights() {
       </section>
 
       <div className="container">
-        {/* Stats row */}
+        
         <section aria-labelledby="stats-heading">
           <h2 className="sr-only" id="stats-heading">Platform statistics</h2>
           <div className="stats-row">
@@ -82,10 +82,8 @@ export default async function MarketInsights() {
           </div>
         </section>
 
-        {/* Live Commodities Ticker (1-2s update) */}
         <LiveCommoditiesTicker />
 
-        {/* Currency rates */}
         <section aria-labelledby="rates-heading">
           <div className="section-header">
             <h2 className="section-title" id="rates-heading">
@@ -138,7 +136,6 @@ export default async function MarketInsights() {
           )}
         </section>
 
-        {/* Historical EUR/USD chart */}
         {history.length > 0 && (
           <section className="trend-section" aria-labelledby="trend-heading">
             <h2 className="trend-section__title" id="trend-heading">
@@ -169,7 +166,6 @@ export default async function MarketInsights() {
           </section>
         )}
 
-        {/* Grocery Market Context */}
         <section aria-labelledby="context-heading" style={{ marginBottom: "3rem" }}>
           <h2 className="section-title" id="context-heading" style={{ marginBottom: "1.25rem" }}>
             Why Currency Data Matters for Groceries
@@ -201,7 +197,6 @@ export default async function MarketInsights() {
           </div>
         </section>
 
-        {/* Mission */}
         <section className="mission-block" aria-labelledby="mission-heading">
           <h2 className="mission-block__title" id="mission-heading">
             Our Mission 🥦
@@ -215,7 +210,6 @@ export default async function MarketInsights() {
           </p>
         </section>
 
-        {/* Attribution */}
         <section aria-labelledby="attribution-heading" style={{ marginBottom: "2rem", textAlign: "center" }}>
           <h2 className="sr-only" id="attribution-heading">Data attribution</h2>
           <p style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>

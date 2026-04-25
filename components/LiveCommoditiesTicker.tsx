@@ -26,16 +26,15 @@ export default function LiveCommoditiesTicker() {
 
   useEffect(() => {
     setIsClient(true);
-    // Simulate real-time ticking every 1.5 seconds
+
     const interval = setInterval(() => {
       setCommodities(prev => 
         prev.map(item => {
-          // 40% chance this specific item ticks this round
+
           if (Math.random() > 0.4) {
             return { ...item, flash: null };
           }
-          
-          // Random walk volatility: max 0.3% change per tick
+
           const volatility = item.price * 0.003;
           const delta = (Math.random() * volatility) - (volatility / 2);
           

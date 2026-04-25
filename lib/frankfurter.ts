@@ -2,7 +2,6 @@ import type { CurrencyRates } from "@/types";
 
 const BASE = "https://api.frankfurter.app";
 
-// Currencies we care about for the insights page
 export const TRACKED_CURRENCIES = ["USD", "EUR", "GBP", "JPY", "INR", "AUD", "CAD"];
 
 export async function getLatestRates(base = "USD"): Promise<CurrencyRates> {

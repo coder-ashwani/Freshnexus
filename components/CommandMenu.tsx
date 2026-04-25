@@ -12,7 +12,6 @@ export default function CommandMenu() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Toggle on Cmd+K or Ctrl+K
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -51,8 +50,7 @@ export default function CommandMenu() {
         setLoading(false);
       }
     };
-    
-    // Simple debounce
+
     const timer = setTimeout(fetchResults, 300);
     return () => clearTimeout(timer);
   }, [query]);

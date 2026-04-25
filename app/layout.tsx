@@ -6,7 +6,6 @@ import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/CartContext";
 import CommandMenu from "@/components/CommandMenu";
 
-// metadata
 export const metadata: Metadata = {
   title: {
     default: "FreshNexus — Grocery Intelligence Platform",

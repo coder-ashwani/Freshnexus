@@ -8,8 +8,7 @@ import { useEffect, useRef, useState } from "react";
 export default function Navbar() {
   const pathname = usePathname();
   const { cartCount, items, isCartOpen, setIsCartOpen, updateQuantity, cartTotal, removeFromCart } = useCart();
-  
-  // Initialize with fallback rates so the dropdown always has data immediately
+
   const [rates, setRates] = useState<Record<string, number>>({
     USD: 1,
     EUR: 0.92,
@@ -20,7 +19,7 @@ export default function Navbar() {
   const [currency, setCurrency] = useState("USD");
   const cartRef = useRef<HTMLLIElement>(null);
 
-  // Close cart when clicking outside
+  // Close the cart dropdown if the user clicks anywhere outside of it
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (cartRef.current && !cartRef.current.contains(e.target as Node)) {
@@ -33,7 +32,8 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isCartOpen, setIsCartOpen]);
 
-  // Fetch Cart Live Exchange rates
+  // Fetches live currency exchange rates from Frankfurter API on load
+  // If the request is successful, it dynamically updates the hardcoded fallback values above
   useEffect(() => {
     fetch("https://api.frankfurter.app/latest?from=USD")
       .then(res => res.json())
@@ -53,7 +53,6 @@ export default function Navbar() {
 
   const convertedTotal = currency === "USD" ? cartTotal : cartTotal * (rates[currency] || 1);
 
-  // Helper to easily get the correct currency prefix symbol
   const getSimbol = (cur: string) => {
     if (cur === "EUR") return "€";
     if (cur === "GBP") return "£";
@@ -118,7 +117,6 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* Cart Dropdown */}
               {isCartOpen && (
                 <div style={{
                   position: "absolute",

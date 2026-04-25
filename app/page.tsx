@@ -27,17 +27,15 @@ export default async function DiscoveryHub({ searchParams }: PageProps) {
   const category = params.category ?? "";
   const page = Math.max(1, Number(params.page ?? 1));
 
-  // searchProducts never throws — it returns empty results on API failures
   const data = await searchProducts({ query, category, page });
 
   const products = data.products ?? [];
   const count = data.count ?? 0;
   const pageCount = data.page_count ?? 1;
 
-
   return (
     <>
-      {/* Hero */}
+      
       <section className="hero" aria-labelledby="hero-title">
         <div className="container">
           <div className="hero__eyebrow" aria-hidden="true">
@@ -57,12 +55,10 @@ export default async function DiscoveryHub({ searchParams }: PageProps) {
         </div>
       </section>
 
-      {/* Category filter */}
       <Suspense>
         <CategoryFilter />
       </Suspense>
 
-      {/* Products grid */}
       <section className="products-section" aria-label="Product results">
         <div className="container">
           <div className="section-header">
