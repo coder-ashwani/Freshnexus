@@ -19,6 +19,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const { addToCart } = useCart();
   const [qty, setQty] = useState(1);
+  const [justAdded, setJustAdded] = useState(false);
 
   const rawNum = parseInt((product.code || "123").slice(-4)) || 499;
   const price = (Math.abs(rawNum) % 15) + (Math.abs(rawNum) % 99) / 100 + 1.99;
@@ -27,6 +28,9 @@ export default function ProductCard({ product }: ProductCardProps) {
     e.preventDefault(); // Prevent link clicking just in case
     addToCart(product, qty, price);
     setQty(1); // Reset qty after adding
+    
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 2000);
   };
 
   return (
@@ -62,7 +66,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </h2>
         </Link>
         
-        <p style={{ fontWeight: "700", color: "white", fontSize: "1.1rem", margin: "0.25rem 0" }}>
+        <p style={{ fontWeight: "700", color: "var(--text-primary)", fontSize: "1.1rem", margin: "0.25rem 0" }}>
           ${price.toFixed(2)}
         </p>
 
@@ -102,17 +106,18 @@ export default function ProductCard({ product }: ProductCardProps) {
             onClick={handleAdd}
             style={{
               flex: 1,
-              background: "var(--accent-2)",
+              background: justAdded ? "#10b981" : "var(--accent-2)",
               color: "white",
               border: "none",
               borderRadius: "6px",
               fontWeight: "600",
               cursor: "pointer",
               fontSize: "0.85rem",
-              padding: "0 0.5rem"
+              padding: "0 0.5rem",
+              transition: "background 0.3s ease"
             }}
           >
-            Add to Cart
+            {justAdded ? "✓ Added" : "Add to Cart"}
           </button>
         </div>
       </div>
