@@ -41,23 +41,19 @@ export default function AddToCartDetail({ product, price }: AddToCartDetailProps
 
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "stretch" }}>
         <div style={{
-          display: "flex",
-          alignItems: "center",
-          background: "rgba(255,255,255,0.05)",
-          border: "1px solid var(--surface-border)",
-          borderRadius: "8px",
-          overflow: "hidden"
+          display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between",
+          background: "var(--bg-1)", border: "1px solid var(--border-bright)", borderRadius: "8px", overflow: "hidden"
         }}>
           <button 
             onClick={() => setQty(Math.max(1, qty - 1))}
-            style={{ background: "transparent", border: "none", color: "white", width: "40px", height: "40px", cursor: "pointer", fontSize: "1.25rem" }}
+            style={{ background: "transparent", border: "none", color: "var(--text-primary)", width: "40px", height: "40px", cursor: "pointer", fontSize: "1.25rem" }}
           >
             -
           </button>
           <span style={{ fontSize: "1rem", width: "30px", textAlign: "center", fontWeight: "600" }}>{qty}</span>
           <button 
             onClick={() => setQty(qty + 1)}
-            style={{ background: "transparent", border: "none", color: "white", width: "40px", height: "40px", cursor: "pointer", fontSize: "1.25rem" }}
+            style={{ background: "transparent", border: "none", color: "var(--text-primary)", width: "40px", height: "40px", cursor: "pointer", fontSize: "1.25rem" }}
           >
             +
           </button>

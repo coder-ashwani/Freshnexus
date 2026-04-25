@@ -2,23 +2,23 @@
 
 /* ── Design Tokens ─────────────────────────────────────────────────────────── */
 :root {
-  --bg-0: #07090f;
-  --bg-1: #0d1117;
-  --bg-2: #151b27;
-  --bg-3: #1e2636;
-  --surface: #1a2132;
-  --surface-hover: #222d41;
-  --border: rgba(255, 255, 255, 0.07);
-  --border-bright: rgba(255, 255, 255, 0.12);
+  --bg-0: #f8fafc;
+  --bg-1: #f1f5f9;
+  --bg-2: #ffffff;
+  --bg-3: #e2e8f0;
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+  --border: rgba(0, 0, 0, 0.08);
+  --border-bright: rgba(0, 0, 0, 0.12);
 
-  --accent: #22d3ee;     /* cyan */
-  --accent-2: #818cf8;   /* indigo */
-  --accent-3: #34d399;   /* emerald */
+  --accent: #0ea5e9;     /* vibrant blue */
+  --accent-2: #6366f1;   /* indigo */
+  --accent-3: #10b981;   /* emerald */
   --accent-warn: #f59e0b;
-  --accent-red: #f87171;
+  --accent-red: #ef4444;
 
-  --text-primary: #f0f6fc;
-  --text-secondary: #94a3b8;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
   --text-muted: #64748b;
 
   --radius-sm: 8px;
@@ -26,10 +26,10 @@
   --radius-lg: 18px;
   --radius-xl: 24px;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.5);
-  --shadow-card: 0 0 0 1px rgba(255,255,255,0.05), 0 4px 32px rgba(0,0,0,0.6);
-  --shadow-glow: 0 0 32px rgba(34, 211, 238, 0.12);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 32px rgba(14, 165, 233, 0.15);
 
   --transition: 0.2s ease;
   --font-body: "Inter", system-ui, sans-serif;
@@ -83,7 +83,7 @@ button { cursor: pointer; font-family: inherit; }
 
 /* ── Glassmorphism card ─────────────────────────────────────────────────────── */
 .glass-card {
-  background: rgba(26, 33, 50, 0.7);
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   backdrop-filter: blur(12px);
@@ -95,7 +95,7 @@ button { cursor: pointer; font-family: inherit; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(7, 9, 15, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/CartContext";
+import CommandMenu from "@/components/CommandMenu";
 
 // metadata
 export const metadata: Metadata = {
@@ -12,26 +13,19 @@ export const metadata: Metadata = {
     template: "%s | FreshNexus",
   },
   description:
-    "Discover, explore, and understand grocery products from around the world. Powered by Open Food Facts data and live market insights.",
-  keywords: ["grocery", "food", "nutrition", "products", "market insights", "Open Food Facts"],
-  authors: [{ name: "FreshNexus Team" }],
-  creator: "FreshNexus",
+    "A global, open-source platform exploring grocery products, nutritional data, environmental impact, and world commodities.",
+  keywords: ["grocery", "open food facts", "nutrition", "eco-score", "food insights"],
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: "FreshNexus",
     title: "FreshNexus — Grocery Intelligence Platform",
-    description:
-      "Discover, explore, and understand grocery products from around the world.",
+    description: "Explore comprehensive global grocery data, nutritional insights, and market trends.",
+    type: "website",
+    siteName: "FreshNexus",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "FreshNexus — Grocery Intelligence Platform",
-    description: "Discover, explore, and understand grocery products from around the world.",
-  },
-  robots: {
-    index: true,
-    follow: true,
+    title: "FreshNexus",
+    description: "Your open directory of the world's groceries.",
   },
 };
 
@@ -49,6 +43,7 @@ export default function RootLayout({
           <Navbar />
           <main id="main-content" tabIndex={-1}>
             {children}
+            <CommandMenu />
           </main>
           <Footer />
         </CartProvider>

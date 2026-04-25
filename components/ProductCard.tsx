@@ -82,23 +82,19 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Add to Cart Controls */}
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "auto" }}>
           <div style={{
-            display: "flex",
-            alignItems: "center",
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid var(--surface-border)",
-            borderRadius: "6px",
-            overflow: "hidden"
+            display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between",
+            background: "var(--bg-1)", border: "1px solid var(--border-bright)", borderRadius: "8px", overflow: "hidden"
           }}>
             <button 
-              onClick={() => setQty(Math.max(1, qty - 1))}
-              style={{ background: "transparent", border: "none", color: "white", width: "30px", height: "30px", cursor: "pointer" }}
+              onClick={(e) => { e.preventDefault(); setQty(Math.max(1, qty - 1)); }}
+              style={{ background: "transparent", border: "none", color: "var(--text-primary)", width: "32px", height: "32px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
             >
               -
             </button>
-            <span style={{ fontSize: "0.85rem", width: "20px", textAlign: "center", fontWeight: "600" }}>{qty}</span>
+            <span style={{ fontSize: "0.85rem", fontWeight: "600" }}>{qty}</span>
             <button 
-              onClick={() => setQty(qty + 1)}
-              style={{ background: "transparent", border: "none", color: "white", width: "30px", height: "30px", cursor: "pointer" }}
+              onClick={(e) => { e.preventDefault(); setQty(qty + 1); }}
+              style={{ background: "transparent", border: "none", color: "var(--text-primary)", width: "32px", height: "32px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
             >
               +
             </button>
