@@ -2,9 +2,8 @@
 
 A comprehensive, production-ready **Next.js 15 App Router** web application that provides seamless grocery product discovery, a fully integrated persistent shopping cart, international cross-currency checkout, and live market intelligence.
 
-## 🚀 Live Demo
-
-> **Deploy to Vercel**: Click "New Project" → Import this repo → Deploy (zero config needed).
+## 🚀 Live Demo-
+Live Link- https://freshnexus.vercel.app/ 
 
 ---
 
