@@ -8,12 +8,34 @@ import { useState } from "react";
 export default function CheckoutPage() {
   const { items, cartTotal } = useCart();
   const [placed, setPlaced] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0); // e.g. 0.10 for 10%
+  const [promoError, setPromoError] = useState("");
   
   // Hardcoded delivery charge based on the project requirements
   const deliveryFee = 5.00;
   
-  // Only apply delivery fee if the cart actually has items
-  const finalTotal = cartTotal + (items.length > 0 ? deliveryFee : 0);
+  // Apply discount and calculate final
+  const discountAmount = cartTotal * discount;
+  const subtotalAfterDiscount = cartTotal - discountAmount;
+  const finalTotal = subtotalAfterDiscount + (items.length > 0 ? deliveryFee : 0);
+
+  const handleApplyPromo = () => {
+    const code = promoCode.trim().toUpperCase();
+    if (code === "FRESH10") {
+      setDiscount(0.10);
+      setPromoError("");
+    } else if (code === "WELCOME20") {
+      setDiscount(0.20);
+      setPromoError("");
+    } else if (code !== "") {
+      setDiscount(0);
+      setPromoError("Invalid or expired promo code");
+    } else {
+      setDiscount(0);
+      setPromoError("");
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,11 +151,39 @@ export default function CheckoutPage() {
             </div>
           )}
 
+          <div style={{ padding: "1rem 0", borderTop: "1px solid var(--surface-border)" }}>
+            <label style={{ display: "block", fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "0.5rem" }}>Gift Card or Promo Code</label>
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              <input 
+                type="text" 
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value)}
+                style={{ flex: 1, background: "var(--bg-1)", border: "1px solid var(--border-bright)", color: "var(--text-primary)", padding: "0.5rem 0.75rem", borderRadius: "6px" }} 
+                placeholder="FRESH10 or WELCOME20" 
+              />
+              <button 
+                type="button"
+                onClick={handleApplyPromo}
+                style={{ background: "rgba(0,0,0,0.05)", border: "1px solid var(--border-bright)", color: "var(--text-primary)", padding: "0.5rem 1rem", borderRadius: "6px", cursor: "pointer", fontWeight: "600" }}
+              >
+                Apply
+              </button>
+            </div>
+            {promoError && <p style={{ color: "var(--accent-red)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{promoError}</p>}
+            {discount > 0 && <p style={{ color: "#10b981", fontSize: "0.8rem", marginTop: "0.5rem", fontWeight: "600" }}>✓ Promo code applied!</p>}
+          </div>
+
           <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", borderTop: "1px solid var(--surface-border)", paddingTop: "1.5rem", marginBottom: "1.5rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-muted)", fontSize: "0.95rem" }}>
               <span>Subtotal</span>
               <span>${cartTotal.toFixed(2)}</span>
             </div>
+            {discount > 0 && (
+              <div style={{ display: "flex", justifyContent: "space-between", color: "#10b981", fontSize: "0.95rem" }}>
+                <span>Discount ({(discount * 100)}%)</span>
+                <span>-${discountAmount.toFixed(2)}</span>
+              </div>
+            )}
             <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-muted)", fontSize: "0.95rem" }}>
               <span>Delivery Charge</span>
               <span>{items.length > 0 ? `$${deliveryFee.toFixed(2)}` : "$0.00"}</span>
